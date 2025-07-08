@@ -507,15 +507,19 @@
         </div>
     </footer>
 
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
     <script>
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-
+    
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('open');
         });
-
+    
         // Close mobile menu when clicking on a link
         const mobileMenuLinks = mobileMenu.querySelectorAll('a');
         mobileMenuLinks.forEach(link => {
@@ -523,13 +527,13 @@
                 mobileMenu.classList.remove('open');
             });
         });
-
+    
         // Scroll animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
-
+    
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -537,37 +541,40 @@
                 }
             });
         }, observerOptions);
-
+    
         // Observe all animation elements
         document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
             observer.observe(el);
         });
-
-        // Form validation
+    
+        // Form validation & loading overlay
         const form = document.querySelector('form');
         form.addEventListener('submit', (e) => {
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
             const message = document.getElementById('message').value.trim();
-
+    
             if (!name || !email || !message) {
                 e.preventDefault();
                 alert('Please fill in all required fields.');
                 return;
             }
-
+    
             if (!isValidEmail(email)) {
                 e.preventDefault();
                 alert('Please enter a valid email address.');
                 return;
             }
+    
+            // ✅ Show loading screen
+            document.getElementById('loading-overlay').style.display = 'flex';
         });
-
+    
         function isValidEmail(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email);
         }
-
+    
         // Smooth scroll for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -582,7 +589,7 @@
                 }
             });
         });
-
+    
         // Add scroll effect to header
         window.addEventListener('scroll', () => {
             const header = document.querySelector('nav');
@@ -592,14 +599,10 @@
                 header.classList.remove('shadow-xl');
             }
         });
-
-        // Get the span element by its ID
+    
+        // Get current year for footer
         const yearSpan = document.getElementById('currentYear');
-
-        // Get the current year
         const currentYear = new Date().getFullYear();
-
-        // Set the text content of the span to the current year
         yearSpan.textContent = currentYear;
     </script>
 </body>
